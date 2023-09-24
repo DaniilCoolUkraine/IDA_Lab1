@@ -1,8 +1,12 @@
 import pandas as pd
+from sys import platform
 
 class CSV_Reader:
 	def __init__(self) -> None:
-		self.nba = pd.read_csv("python/dataset/nba.csv")
+		if platform == 'linux':
+			self.nba = pd.read_csv("dataset/nba.csv")
+		else:
+			self.nba = pd.read_csv("python/dataset/nba.csv")
 	
 	def get_data_count(self):
 		return len(self.nba)

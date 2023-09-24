@@ -2,10 +2,15 @@ import requests as req
 from colorama import Fore as text_color
 from colorama import Style as text_style
 
+from sys import platform
+
 class Loader:
 	def sendGetRequest(self):
 		download_url = "https://raw.githubusercontent.com/fivethirtyeight/data/master/nba-elo/nbaallelo.csv"
-		target_csv_path = "python/dataset/nba.csv"
+		if platform == 'linux':
+			target_csv_path = "dataset/nba.csv"
+		else:
+			target_csv_path = "python/dataset/nba.csv"
 
 		response = req.get(download_url)
 		if response.status_code == 200:
