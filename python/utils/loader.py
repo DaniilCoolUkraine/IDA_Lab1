@@ -11,7 +11,7 @@ class Loader:
 		if response.status_code == 200:
 			with open(target_csv_path, "wb") as file:
 				file.write(response.content)
-			print(text_color.GREEN + "Download ready.")
+			print(text_color.GREEN + "Download finished.")
 		else:
 			print(text_color.RED + "Error when downloading.")
 		print(text_style.RESET_ALL)

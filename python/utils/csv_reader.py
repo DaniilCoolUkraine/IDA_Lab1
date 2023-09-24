@@ -11,6 +11,14 @@ class CSV_Reader:
 	
 	def get_types(self):
 		return self.nba.dtypes
+	def	get_dataset_head(self):
+		pd.set_option("display.max.columns", None)
+		pd.set_option("display.precision", 2)
+		return self.nba.head()
+	def get_dataset_statistic(self):
+		return self.nba.describe()
+	def get_column_values(self, column):
+		return self.nba[column].value_counts()
 	
 	def has_null(self):
 		return self.get_nulls_count() != 0
