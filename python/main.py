@@ -1,5 +1,5 @@
 from utils.loader import Loader
-from data_processing import execute_tasks
+from data_processing import execute_tasks_2
 from utils.csv_reader import CSV_Reader
 
 # 2.1 load the data from Internet

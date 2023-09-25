@@ -44,3 +44,6 @@ class CSV_Reader:
 	
 	def delete_column(self, column):
 		self.nba = self.nba.drop([column], axis=1)
+
+	def rename_column(self, from_str: str, to_str: str):
+		self.nba = self.nba.rename(columns={from_str: to_str})

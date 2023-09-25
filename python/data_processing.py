@@ -34,3 +34,8 @@ def execute_tasks_2(reader: CSV_Reader):
     print(f"all nulls count: {reader.get_nulls_count()}", end='\n\n')
     print("Checking the table after deletion (missing notes column)")
     print(reader.get_dataset_head(), end='\n\n')
+
+    print("2.6 Rename columns 'seasongame' to 'season_game' and 'pts' to 'points'")
+    reader.rename_column("seasongame", "season_game")
+    reader.rename_column("pts", "points")
+    print(reader.get_dataset_head(), end='\n\n')
