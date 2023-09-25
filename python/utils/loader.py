@@ -1,8 +1,8 @@
 import requests as req
 from colorama import Fore as text_color
 from colorama import Style as text_style
-
 from sys import platform
+
 
 class Loader:
 	def sendGetRequest(self):

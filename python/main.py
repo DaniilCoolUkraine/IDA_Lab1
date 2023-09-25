@@ -1,42 +1,13 @@
 from utils.loader import Loader
-from utils.csv_reader import CSV_Reader
 from data_processing import execute_tasks
+from utils.csv_reader import CSV_Reader
 
-print()
-
-loader = Loader()
-loader.sendGetRequest()
+# 2.1 load the data from Internet
+load = False
+if load:
+    print("2.1 Load the data from Internet to nba.csv file")
+    loader = Loader()
+    loader.sendGetRequest()
 
 reader = CSV_Reader()
-
-print(reader.get_data_count())
-print(reader.get_table_shape())
-
-print()
-print(reader.get_types())
-
-print()
-if reader.has_null():
-	print(f"all nulls count: {reader.get_nulls_count()}")
-else:
-	print("data is full")
-
-column = "game_id"
-
-if reader.column_has_null(column):
-	print(f"{column} nulls count: {reader.get_nulls_count_in_column(column)}")
-else:
-	print(f"{column} data is full")
-
-column = "notes"
-
-if reader.column_has_null(column):
-	print(f"{column} nulls count: {reader.get_nulls_count_in_column(column)}")
-else:
-	print(f"{column} data is full")
-
-print()
-reader.delete_column(column)
-print(f"all nulls count: {reader.get_nulls_count()}")
-
-execute_tasks()
+execute_tasks_2(reader)
