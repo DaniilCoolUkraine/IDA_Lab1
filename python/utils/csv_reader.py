@@ -47,3 +47,9 @@ class CSV_Reader:
 
 	def rename_column(self, from_str: str, to_str: str):
 		self.nba = self.nba.rename(columns={from_str: to_str})
+
+	def change_data_type(self, column: str, to_type: str):
+		self.nba[column] = self.nba[column].astype(to_type)
+
+	def delete_duplicates(self):
+		self.nba = self.nba.drop_duplicates()

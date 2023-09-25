@@ -35,7 +35,25 @@ def execute_tasks_2(reader: CSV_Reader):
     print("Checking the table after deletion (missing notes column)")
     print(reader.get_dataset_head(), end='\n\n')
 
-    print("2.6 Rename columns 'seasongame' to 'season_game' and 'pts' to 'points'")
+    print("2.6 Rename columns 'lg_id' to 'league_id', 'pts' to 'points' and '_iscopy' to 'is_copy'")
     reader.rename_column("seasongame", "season_game")
     reader.rename_column("pts", "points")
+    reader.rename_column("_iscopy", "is_copy")
+    reader.rename_column("lg_id", "league_id")
     print(reader.get_dataset_head(), end='\n\n')
+
+    print("2.7 Changing the type in the 'is_copy' column to bool type")
+    reader.change_data_type("is_copy", "bool")
+    print(reader.get_types(), end='\n\n')
+    print(reader.get_dataset_head(), end='\n\n')
+
+    print("2.8 Delete duplicates from table")
+    old_shape = reader.get_table_shape()
+    reader.delete_duplicates()
+
+    if old_shape == reader.get_table_shape():
+        print(f"There are no duplicates in the table")
+    else:
+        print(f"Duplicates successfully deleted")
+    print("Old shape:", old_shape)
+    print("Current shape:", reader.get_table_shape())
