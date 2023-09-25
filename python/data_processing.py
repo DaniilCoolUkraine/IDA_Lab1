@@ -1,7 +1,7 @@
 from utils.csv_reader import CSV_Reader
 
 
-def execute_tasks_2(reader: CSV_Reader):
+def execute_task_block_2(reader: CSV_Reader):
     print("print several rows of data from the table, for example")
     print(reader.get_dataset_head(), end='\n\n')
 
@@ -59,14 +59,18 @@ def execute_tasks_2(reader: CSV_Reader):
     print("Current shape:", reader.get_table_shape())
 
     print("2.9 Check for outliers")
-    # Didn't work. Unfortunately, I do not know why :(
+    # Didn't work with import seaborn as sns. Unfortunately, I do not know why :(
     '''Error: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version.
     Use isinstance(dtype, CategoricalDtype) instead if pd.api.types.is_categorical_dtype(vector): '''
-    # reader.check_for_outliers_in_column("points")
 
     print(reader.check_for_outliers_in_column("points"), end='\n\n')
     print(reader.check_for_outliers_in_column("is_playoffs"), end='\n\n')
 
     print("2.10 Exclude outliers from table")
+    reader.delete_outliers('points')
+    reader.delete_outliers('is_playoffs')
+    print(reader.get_dataset_head(), end='\n\n')
 
-
+    print("2.11 saved to a 'cleaned_dataset.csv' file")
+    reader.save_to_file('cleaned_dataset.csv')
+    print(f"file saved to {reader.get_save_dir()} directory")

@@ -1,16 +1,15 @@
 import pandas as pd
-from sys import platform
-import seaborn as sns
-import matplotlib.pyplot as plt
+
+# Must be involved immediately
+pd.set_option("display.width", 1000)  # To avoid table migration
+pd.set_option("display.max.columns", None)
+pd.set_option("display.precision", 2)
 
 
 class CSV_Reader:
-	def __init__(self) -> None:
-		pd.set_option("display.width", 1000)  # To avoid table migration
-		if platform == 'linux':
-			self.nba = pd.read_csv("dataset/nba.csv")
-		else:
-			self.nba = pd.read_csv("python/dataset/nba.csv")
+	def __init__(self, file_path: str) -> None:
+		self.file_path = file_path
+		self.nba = pd.read_csv(file_path + 'nba.csv')
 	
 	def get_data_count(self):
 		return len(self.nba)
@@ -22,8 +21,6 @@ class CSV_Reader:
 		return self.nba.dtypes
 
 	def get_dataset_head(self):
-		pd.set_option("display.max.columns", None)
-		pd.set_option("display.precision", 2)
 		return self.nba.head()
 
 	def get_dataset_statistic(self):
@@ -56,25 +53,6 @@ class CSV_Reader:
 	def delete_duplicates(self):
 		self.nba = self.nba.drop_duplicates()
 
-	# TODO. It is not working
-	'''
-	def check_for_outliers_in_column(self, column: str):
-		numeric_columns = self.nba.select_dtypes(include=['number']).columns.tolist()
-		if column not in numeric_columns:
-			print("Incorrect column")
-			return
-
-		check_type = self.nba[column].dtype
-
-		if isinstance(check_type, pd.api.types.CategoricalDtype):
-			print(f"Column {column} is categorical and cannot be visualized with a box plot.")
-			return
-
-		sns.boxplot(x=self.nba[column])
-		plt.title(f"Box Plot for {column}")
-		plt.show()
-	'''
-
 	def check_for_outliers_in_column(self, col: str):
 		numeric_columns = self.nba.select_dtypes(include=['number'])
 		if col not in numeric_columns:
@@ -84,18 +62,27 @@ class CSV_Reader:
 		# Calculate static characteristic for each column
 		stats = numeric_columns.describe()
 
+		# Get first and third quantiles
 		q1 = stats.loc["25%", col]
 		q3 = stats.loc["75%", col]
+
+		# Calculate the interquartile range for col
 		iqr = q3 - q1
 
+		# Calculate upper and lower bounds for outliers
 		lower_bound = q1 - 1.5 * iqr
 		upper_bound = q3 + 1.5 * iqr
 		return numeric_columns[(numeric_columns[col] < lower_bound) | (numeric_columns[col] > upper_bound)]
 
-	def delete_outliers(self):
-		pass
-		#self.nba = self.nba[self.nba[]]
+	def delete_outliers(self, col: str):
+		outliers = self.check_for_outliers_in_column(col)
 
-	# Without .csv extension
+		# Delete rows with outliers
+		self.nba.drop(outliers.index)
+		self.nba.reset_index()
+
+	def get_save_dir(self):
+		return self.file_path
+
 	def save_to_file(self, name: str):
-		self.nba.to_csv(name + '.csv', index=False)
+		self.nba.to_csv(self.file_path + name, index=False)
