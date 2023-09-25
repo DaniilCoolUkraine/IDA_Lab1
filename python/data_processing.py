@@ -57,3 +57,16 @@ def execute_tasks_2(reader: CSV_Reader):
         print(f"Duplicates successfully deleted")
     print("Old shape:", old_shape)
     print("Current shape:", reader.get_table_shape())
+
+    print("2.9 Check for outliers")
+    # Didn't work. Unfortunately, I do not know why :(
+    '''Error: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version.
+    Use isinstance(dtype, CategoricalDtype) instead if pd.api.types.is_categorical_dtype(vector): '''
+    # reader.check_for_outliers_in_column("points")
+
+    print(reader.check_for_outliers_in_column("points"), end='\n\n')
+    print(reader.check_for_outliers_in_column("is_playoffs"), end='\n\n')
+
+    print("2.10 Exclude outliers from table")
+
+

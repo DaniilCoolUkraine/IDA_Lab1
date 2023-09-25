@@ -1,5 +1,7 @@
 import pandas as pd
 from sys import platform
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 class CSV_Reader:
@@ -53,3 +55,47 @@ class CSV_Reader:
 
 	def delete_duplicates(self):
 		self.nba = self.nba.drop_duplicates()
+
+	# TODO. It is not working
+	'''
+	def check_for_outliers_in_column(self, column: str):
+		numeric_columns = self.nba.select_dtypes(include=['number']).columns.tolist()
+		if column not in numeric_columns:
+			print("Incorrect column")
+			return
+
+		check_type = self.nba[column].dtype
+
+		if isinstance(check_type, pd.api.types.CategoricalDtype):
+			print(f"Column {column} is categorical and cannot be visualized with a box plot.")
+			return
+
+		sns.boxplot(x=self.nba[column])
+		plt.title(f"Box Plot for {column}")
+		plt.show()
+	'''
+
+	def check_for_outliers_in_column(self, col: str):
+		numeric_columns = self.nba.select_dtypes(include=['number'])
+		if col not in numeric_columns:
+			print("This column is not numeric")
+			return
+
+		# Calculate static characteristic for each column
+		stats = numeric_columns.describe()
+
+		q1 = stats.loc["25%", col]
+		q3 = stats.loc["75%", col]
+		iqr = q3 - q1
+
+		lower_bound = q1 - 1.5 * iqr
+		upper_bound = q3 + 1.5 * iqr
+		return numeric_columns[(numeric_columns[col] < lower_bound) | (numeric_columns[col] > upper_bound)]
+
+	def delete_outliers(self):
+		pass
+		#self.nba = self.nba[self.nba[]]
+
+	# Without .csv extension
+	def save_to_file(self, name: str):
+		self.nba.to_csv(name + '.csv', index=False)
