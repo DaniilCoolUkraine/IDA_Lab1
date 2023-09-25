@@ -1,5 +1,6 @@
 from utils.loader import Loader
 from utils.csv_reader import CSV_Reader
+from data_processing import execute_tasks
 
 print()
 
@@ -37,3 +38,5 @@ else:
 print()
 reader.delete_column(column)
 print(f"all nulls count: {reader.get_nulls_count()}")
+
+execute_tasks()
