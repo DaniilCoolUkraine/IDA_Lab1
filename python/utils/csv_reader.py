@@ -11,6 +11,9 @@ class CSV_Reader:
 		self.file_path = file_path
 		self.nba = pd.read_csv(file_path + file)
 	
+	def get_dataset(self):
+		return self.nba
+
 	def get_data_count(self):
 		return len(self.nba)
 
