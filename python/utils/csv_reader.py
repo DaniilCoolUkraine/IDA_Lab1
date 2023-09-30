@@ -7,9 +7,9 @@ pd.set_option("display.precision", 2)
 
 
 class CSV_Reader:
-	def __init__(self, file_path: str) -> None:
+	def __init__(self, file_path: str, file: str) -> None:
 		self.file_path = file_path
-		self.nba = pd.read_csv(file_path + 'nba.csv')
+		self.nba = pd.read_csv(file_path + file)
 	
 	def get_data_count(self):
 		return len(self.nba)
