@@ -1,5 +1,7 @@
 from sys import platform
 
+def get_os():
+    return platform
 
 def get_path():
     primary = "dataset/"
